@@ -1,0 +1,2 @@
+[paths]
+default = ssh://hg@bitbucket.org/marcio0/ispm-django-chronograph
