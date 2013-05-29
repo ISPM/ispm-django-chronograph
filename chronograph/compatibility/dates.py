@@ -1,7 +1,13 @@
 from __future__ import division
 from datetime import datetime
+from django.conf import settings
 
-timezone = None
+try:
+    # Django 1.4+
+    from django.utils import timezone
+    timezone = settings.USE_TZ
+except:
+    timezone = None
 
 try:
     # Django 1.4+
@@ -76,7 +82,7 @@ def local_dateformat(dt):
 
 def localtime(dt):
     if timezone and dt != None:
-        return timezone.localtime(make_aware(dt, tz='current'))
+        return timezone.localtime(dt)
     return dt
 
 def total_seconds(td):
