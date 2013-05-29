@@ -15,11 +15,10 @@ class Command(BaseCommand):
         except IndexError:
             sys.stderr.write("This command requires a single argument: a job id to run.\n")
             return
-
         try:
             job = Job.objects.get(pk=job_id)
         except Job.DoesNotExist:
-            sys.stderr.write("The requested Job does not exist.\n")
+            sys.stderr.write("The requested Job does not exist [%s].\n" % job_id)
             return
         
         # Run the job and wait for it to finish
