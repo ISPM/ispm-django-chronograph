@@ -14,6 +14,7 @@ chronograph/management/__init__.py
 chronograph/management/commands/__init__.py
 chronograph/management/commands/cron.py
 chronograph/management/commands/cron_clean.py
+chronograph/management/commands/cron_serial.py
 chronograph/management/commands/cronserver.py
 chronograph/management/commands/run_job.py
 chronograph/templates/chronograph/error_message.txt
