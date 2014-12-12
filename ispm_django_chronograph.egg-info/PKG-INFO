@@ -1,10 +1,10 @@
 Metadata-Version: 1.1
 Name: ispm-django-chronograph
-Version: 0.3.2.dev
-Summary: UNKNOWN
-Home-page: http://bitbucket.org/wnielson/django-chronograph
-Author: Weston Nielson
-Author-email: wnielson@gmail.com
+Version: 0.3.3.1
+Summary: A fork of https://pypi.python.org/pypi/django-chronograph
+Home-page: https://github.com/marcio0/ispm-django-chronograph
+Author: marcio0
+Author-email: marc.cr@gmail.com
 License: BSD
 Description: UNKNOWN
 Platform: UNKNOWN

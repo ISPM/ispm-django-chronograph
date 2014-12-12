@@ -1,5 +1,4 @@
 README.rst
-setup.cfg
 setup.py
 bin/chronograph
 chronograph/__init__.py
