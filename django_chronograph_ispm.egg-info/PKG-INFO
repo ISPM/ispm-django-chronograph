@@ -1,7 +1,7 @@
 Metadata-Version: 1.1
-Name: django-chrongraph-ispm
+Name: django-chronograph-ispm
 Version: 0.0.3
-Summary: Django Chronograph ISPM customized
+Summary: Django iChronograph ISPM customized
 Home-page: https://github.com/ISPM/ispm-django-chronograph
 Author: ISPM
 Author-email: dev@ispm.com
