@@ -14,9 +14,9 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='django-chrongraph-ispm',
-    version='1.2.0',
-    description='A sample Python project',
+    name='django-chronograph-ispm',
+    version='0.0.3',
+    description='Django iChronograph ISPM customized',
     long_description=long_description,
     author='ISPM',
     author_email='dev@ispm.com',
