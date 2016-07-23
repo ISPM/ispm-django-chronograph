@@ -1,50 +1,29 @@
+"""A setuptools based setup module.
+See:
+https://packaging.python.org/en/latest/distributing.html
+https://github.com/pypa/sampleproject
+"""
+
 from setuptools import setup, find_packages
+from codecs import open
+from os import path
 
-import chronograph
-import os
-import urllib
+here = path.abspath(path.dirname(__file__))
 
-def setup_distribute():
-    """
-    This will download and install Distribute.
-    """
-    try:
-        import distribute_setup
-    except:
-        # Make sure we have Distribute
-        if not os.path.exists('distribute_setup'):
-            urllib.urlretrieve('http://nightly.ziade.org/distribute_setup.py',
-                               './distribute_setup.py')
-        distribute_setup = __import__('distribute_setup')
-    distribute_setup.use_setuptools()
-
-def get_reqs(reqs=[]):
-    # optparse is included with Python <= 2.7, but has been deprecated in favor
-    # of argparse.  We try to import argparse and if we can't, then we'll add
-    # it to the requirements
-    try:
-        import argparse
-    except ImportError:
-        reqs.append("argparse>=1.1")
-    return reqs
-
-# Make sure we have Distribute installed
-setup_distribute()
+with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
 
 setup(
-    name = "ispm-django-chronograph",
-    version = ".".join([str(i) for i in chronograph.VERSION]),
-    packages = find_packages(),
-    scripts = ['bin/chronograph'],
-    package_data = {
-        '': ['docs/*.txt', 'docs/*.py'],
-        'chronograph': ['templates/*.*', 'templates/*/*.*', 'templates/*/*/*.*', 'fixtures/*'],
-    },
-    author = "marcio0",
-    author_email = "marc.cr@gmail.com",
-    description = "A fork of https://pypi.python.org/pypi/django-chronograph",
-    license = "BSD",
-    url = "https://github.com/marcio0/ispm-django-chronograph",
+    name='django-chronograph-ispm',
+    version='0.0.3',
+    description='Django iChronograph ISPM customized',
+    long_description=long_description,
+    author='ISPM',
+    author_email='dev@ispm.com',
+    license='BSD',
+    keywords='cron django-chronograph',
+    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    url='https://github.com/ISPM/ispm-django-chronograph',
     classifiers = [
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
@@ -54,6 +33,14 @@ setup(
         'Framework :: Django',
     ],
     zip_safe = False,
-    install_requires = get_reqs(["Django>=1.0", "python-dateutil<=1.5"]),
-    dependency_links = ['http://labix.org/download/python-dateutil/python-dateutil-1.5.tar.gz']
+    extras_require = {
+        'Django': ['Django>=1.5'],
+        'DateUtil': ['python-dateutil<=1.5']
+    },
+    dependency_links = ['http://labix.org/download/python-dateutil/python-dateutil-1.5.tar.gz'],
+    package_data = {
+        '': ['docs/*.txt', 'docs/*.py'],
+        'chronograph': ['templates/*.*', 'templates/*/*.*', 'templates/*/*/*.*', 'fixtures/*'],
+    },
+    scripts = ['bin/chronograph'],
 )
