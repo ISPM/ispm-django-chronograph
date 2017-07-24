@@ -242,26 +242,28 @@ class Job(models.Model):
                     param = (param[0], param[1][0])
                 param_dict.append(param)
         return dict(param_dict)
-    
+
     def get_args(self):
         """
         Processes the args and returns a tuple or (args, options) for passing
         to ``call_command``.
-        
+
         >>> job = Job(args="arg1 arg2 kwarg1='some value'")
         >>> job.get_args()
         (['arg1', 'arg2', "value'"], {'kwarg1': "'some"})
+        # mportela - add replace to accept " and ' in the kwargs of job config
         """
         args = []
         options = {}
         for arg in self.args.split():
             if arg.find('=') > -1:
                 key, value = arg.split('=')
-                options[smart_str(key)] = smart_str(value)
+                options[smart_str(key)] = smart_str(
+                        value).replace("'", "").replace('"', '')
             else:
                 args.append(arg)
         return (args, options)
-    
+
     def is_due(self):
         """
         >>> from chronograph.compatibility.dates import now
