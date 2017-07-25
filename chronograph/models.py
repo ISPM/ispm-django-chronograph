@@ -100,7 +100,7 @@ class Job(models.Model):
                                help_text=_("A valid django-admin command to "
                                            "run."))
     args = models.CharField(_("args"), max_length=200, blank=True,
-        help_text=_("Space separated list; e.g: arg1 option1=True"))
+        help_text=_("Space separated list; e.g: arg1 option1='Some Value'"))
     disabled = models.BooleanField(default=False, help_text=_('If checked this '
                                                               'job will never '
                                                               'run.'))
@@ -237,7 +237,8 @@ class Job(models.Model):
                 continue # skip blanks
             param = param.split(':')
             if len(param) == 2:
-                param = (str(param[0]).strip(), [self.param_to_int(p.strip()) for p in param[1].split(',')])
+                param = (
+                    str(param[0]).strip(),[self.param_to_int(p.strip()) for p in param[1].split(',')])
                 if len(param[1]) == 1:
                     param = (param[0], param[1][0])
                 param_dict.append(param)
@@ -250,18 +251,22 @@ class Job(models.Model):
 
         >>> job = Job(args="arg1 arg2 kwarg1='some value'")
         >>> job.get_args()
-        (['arg1', 'arg2', "value'"], {'kwarg1': "'some"})
-        # mportela - add replace to accept " and ' in the kwargs of job config
+        (['arg1', 'arg2', "value'"], {'kwarg1': "some"})
+        # mportela - add replace to accept " and ' in the kwargs
+                     of job config now realy accept kwargs with
+                     spaces, surround by " or '
         """
-        args = []
+        re_pattern = r"(\w+?)=(\w+)(?![\"\'])|(\w+?)=[\"\'](.+?)[\"\']"
         options = {}
-        for arg in self.args.split():
-            if arg.find('=') > -1:
-                key, value = arg.split('=')
-                options[smart_str(key)] = smart_str(
-                        value).replace("'", "").replace('"', '')
-            else:
-                args.append(arg)
+        args = re.sub(re_pattern, u"", self.args).split()
+        ls_kwargs = re.findall(re_pattern, self.args)
+        try:
+            for tpl_kw in ls_kwargs:
+                key, value = tpl_kw[0] or tpl_kw[2], tpl_kw[1] or tpl_kw[3]
+                options[smart_str(key)] = smart_str(value)
+        except Exception as e:
+            raise Exception('Error parsing job [%s] args: %s - %s' % (
+                            self.command, self.args, e))
         return (args, options)
 
     def is_due(self):
